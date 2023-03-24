@@ -1,0 +1,38 @@
+﻿<Window x:Class="WpfRunAnimations.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfRunAnimations"
+        xmlns:vm="clr-namespace:WpfRunAnimations.ViewModel"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <vm:MainWindowViewModel />
+    </Window.DataContext>
+    <StackPanel Width="250">
+        <Button Content="Запустить анимацию" Command="{Binding ButtonClick}"/>
+        <Border x:Name="HiddenGroup" Opacity="0" BorderThickness="2" BorderBrush="Black" CornerRadius="10" Margin="15"
+                Visibility="{Binding BordeVisibility}"
+                Tag="{Binding Path=IsNeedStartAnimation , NotifyOnTargetUpdated=True}"   >
+            <WrapPanel Orientation="Vertical">
+                <TextBlock Text="Появилась.. не надолго" Opacity="1"/>
+                <TextBlock Text="Ещё элемент" Opacity="1"/>
+            </WrapPanel >
+            <Border.Triggers>
+                <EventTrigger RoutedEvent="Binding.TargetUpdated">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard >
+                                <DoubleAnimation  Storyboard.TargetProperty="(FrameworkElement.Opacity)"  
+                              BeginTime="00:00:00.00" From="0" To="1"  Duration="0:0:0.4"/>
+                                <DoubleAnimation  Storyboard.TargetProperty="(FrameworkElement.Opacity)"
+                              BeginTime="00:00:01.40" From="1" To="0"  Duration="0:0:0.8"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+            </Border.Triggers>
+        </Border>
+    </StackPanel>
+</Window>
